@@ -97,9 +97,11 @@ export const atualizar = (req, res) => {
 };
 
 export const deletar = (req, res) => {
-  dbHr.query("DELETE FROM  funcionarios WHERE id=?", (err, res) => {
+  const { id } = req.params;
+
+  dbHr.query("DELETE FROM  funcionarios WHERE id=?", [id], err => {
     if (err)
-      return res.status(500).json({ erro: "Erro ao Excluir Funcionario" });
+      return res.status(500).json({ erro: "Erro ao Excluir Funcionario", detalhes: err.message });
     res.json({ mensagem: "Funcionario excluido com sucesso!" });
   });
 };
